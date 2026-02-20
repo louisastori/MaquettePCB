@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquette atelier multi-services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0f172a;
+            --accent: #f97316;
+            --accent-2: #0ea5e9;
+            --surface: rgba(255,255,255,0.8);
+            --muted: #64748b;
+            --radius: 14px;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(circle at 20% 20%, rgba(14,165,233,0.18), transparent 32%),
+                        radial-gradient(circle at 80% 30%, rgba(249,115,22,0.16), transparent 30%),
+                        linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
+            min-height: 100vh;
+        }
+        header {
+            padding: 32px 24px 12px;
+            text-align: center;
+        }
+        .hero {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            box-shadow: 0 18px 60px rgba(15,23,42,0.12);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: -0.02em;
+        }
+        .hero p { margin: 8px 0 0; color: var(--muted); }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #0ea5e914;
+            color: #0f172a;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        main { max-width: 1200px; margin: 22px auto 48px; padding: 0 20px; }
+        .tabs { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 18px; }
+        .tab-btn {
+            border: 1px solid #e2e8f0;
+            padding: 12px 18px;
+            border-radius: var(--radius);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--ink);
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #0ea5e9, #f97316);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.15);
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 20px rgba(15,23,42,0.07);
+        }
+        .card h3 { margin: 0 0 6px; font-size: 18px; }
+        .meta { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+        .status {
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            color: #0f172a;
+        }
+        .status.encours { background: #f59e0b1f; color: #b45309; }
+        .status.pause { background: #e2e8f0; color: #475569; }
+        .status.fini { background: #22c55e20; color: #166534; }
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; color: var(--muted); font-size: 13px; }
+        .chip { background: #f1f5f9; padding: 6px 10px; border-radius: 10px; }
+        .progress {
+            margin-top: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress span { display: block; height: 100%; background: linear-gradient(135deg, #0ea5e9, #f97316); }
+        footer { text-align: center; padding: 26px 0 36px; color: var(--muted); font-size: 13px; }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin: 12px 0 18px;
+        }
+        .team-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            box-shadow: 0 4px 14px rgba(15,23,42,0.06);
+        }
+        @media (max-width: 640px) {
+            header { padding: 22px 16px 6px; }
+            .tab-btn { flex: 1 1 45%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<?php
+$services = [
+    'Impression' => [
+        ['machine' => 'Impr-01', 'tache_id' => 'T-4312', 'couleur' => 'Cyan', 'pages' => 2400, 'tableau_id' => 'TB-08', 'etat' => 'En cours', 'avancement' => 55],
+        ['machine' => 'Impr-02', 'tache_id' => 'T-4313', 'couleur' => 'Magenta', 'pages' => 1800, 'tableau_id' => 'TB-05', 'etat' => 'Pause', 'avancement' => 32],
+        ['machine' => 'Impr-03', 'tache_id' => 'T-4319', 'couleur' => 'Noir', 'pages' => 3200, 'tableau_id' => 'TB-02', 'etat' => 'En cours', 'avancement' => 71],
+        ['machine' => 'Impr-04', 'tache_id' => 'T-4324', 'couleur' => 'Quadri', 'pages' => 900, 'tableau_id' => 'TB-03', 'etat' => 'Fini', 'avancement' => 100],
+        ['machine' => 'Impr-05', 'tache_id' => 'T-4331', 'couleur' => 'Pantone 123', 'pages' => 1250, 'tableau_id' => 'TB-07', 'etat' => 'En cours', 'avancement' => 48],
+        ['machine' => 'Impr-06', 'tache_id' => 'T-4335', 'couleur' => 'Pantone 300', 'pages' => 2100, 'tableau_id' => 'TB-10', 'etat' => 'En cours', 'avancement' => 63],
+    ],
+    'Thermoformage' => [
+        ['machine' => 'Thermo-A', 'tache_id' => 'TF-210', 'couleur' => 'PET Transparent', 'pages' => 480, 'tableau_id' => 'TB-21', 'etat' => 'En cours', 'avancement' => 40],
+        ['machine' => 'Thermo-B', 'tache_id' => 'TF-214', 'couleur' => 'ABS Noir', 'pages' => 360, 'tableau_id' => 'TB-21', 'etat' => 'Fini', 'avancement' => 100],
+        ['machine' => 'Thermo-C', 'tache_id' => 'TF-219', 'couleur' => 'PVC Blanc', 'pages' => 520, 'tableau_id' => 'TB-19', 'etat' => 'Pause', 'avancement' => 15],
+        ['machine' => 'Thermo-D', 'tache_id' => 'TF-222', 'couleur' => 'PS Noir', 'pages' => 610, 'tableau_id' => 'TB-18', 'etat' => 'En cours', 'avancement' => 28],
+        ['machine' => 'Thermo-E', 'tache_id' => 'TF-225', 'couleur' => 'PETG Clair', 'pages' => 430, 'tableau_id' => 'TB-17', 'etat' => 'En cours', 'avancement' => 64],
+        ['machine' => 'Thermo-F', 'tache_id' => 'TF-229', 'couleur' => 'PVC Noir', 'pages' => 500, 'tableau_id' => 'TB-19', 'etat' => 'En cours', 'avancement' => 36],
+        ['machine' => 'Découpe-01', 'tache_id' => 'DC-301', 'couleur' => 'Lame fine', 'pages' => 290, 'tableau_id' => 'TB-25', 'etat' => 'En cours', 'avancement' => 41],
+        ['machine' => 'Découpe-02', 'tache_id' => 'DC-304', 'couleur' => 'Lame rotative', 'pages' => 310, 'tableau_id' => 'TB-25', 'etat' => 'Pause', 'avancement' => 12],
+        ['machine' => 'Découpe-03', 'tache_id' => 'DC-307', 'couleur' => 'Lame lourde', 'pages' => 260, 'tableau_id' => 'TB-26', 'etat' => 'En cours', 'avancement' => 58],
+    ],
+    'Chocolaterie' => [
+        ['machine' => 'Choco-Temp1', 'tache_id' => 'CH-118', 'couleur' => 'Lait', 'pages' => 160, 'tableau_id' => 'TB-32', 'etat' => 'En cours', 'avancement' => 45],
+        ['machine' => 'Choco-Temp2', 'tache_id' => 'CH-119', 'couleur' => 'Noir 70%', 'pages' => 140, 'tableau_id' => 'TB-33', 'etat' => 'En cours', 'avancement' => 67],
+        ['machine' => 'Enrobeuse', 'tache_id' => 'CH-124', 'couleur' => 'Blanc', 'pages' => 110, 'tableau_id' => 'TB-30', 'etat' => 'Fini', 'avancement' => 100],
+    ],
+    'Emballage' => [
